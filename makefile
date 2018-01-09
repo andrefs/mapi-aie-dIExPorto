@@ -12,4 +12,7 @@ jsons/%.json: txts/%.txt
 	scripts/freeling $< $@
 
 
+NER:
+	grep NP00000 jsons/*.json  | grep -o '"form"\s*:\s*"[^"]\+"' | sed 's/"form"\s*:\s*//'
+
 
