@@ -82,7 +82,7 @@ const popFromCurReqs = (article, curReqs) => {
 getCrawledArticles()
   .then(splitByDomain)
   .then(domains => {
-    const promises = Object.values(domains).map(d => fetchArticlesWithDelay(d, 5000));
+    const promises = Object.values(domains).map(d => fetchArticlesWithDelay(d, 5000)); // FIXME duration should come from source profile
     return Promise.all(promises);
   })
   //.then(console.log);

@@ -11,10 +11,12 @@ module.exports = {
   },
   parseHtml: (html, article) => {
     const $ = cheerio.load(html);
+    const title = $('#news_body .title h1').text(); //FIXME if !title status should not be success
     const body = $('#news_body .text p')
       .map((i,p) => $(p).text())
       .get()
       .join('\n');
+    article.title = title;
     article.fetch = {
       html,
       body,

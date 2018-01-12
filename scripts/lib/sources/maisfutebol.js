@@ -21,6 +21,7 @@ module.exports = {
     article.fetch = {
       firstDate: new Date(),
       lead,
+      status: 'success',
       text: body,
     };
     return article.save();
