@@ -23,7 +23,8 @@ const Article = mongoose.model('Article', {
   },
   fetch: {
     firstDate: Date,
-    body: String,
+    lead: String,
+    text: String,
     author: String,
     html: String
   },
