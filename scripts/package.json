@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "mongoose": "5.0.0-rc1",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "rss-parser": "^2.11.0",
+    "string-to-stream": "^1.1.0"
+  }
+}

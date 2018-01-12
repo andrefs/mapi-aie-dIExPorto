@@ -13,6 +13,6 @@ jsons/%.json: txts/%.txt
 
 
 NER:
-	grep NP00000 jsons/*.json  | grep -o '"form"\s*:\s*"[^"]\+"' | sed 's/"form"\s*:\s*//'
+	grep NP00000 jsons/*.json  | grep -o '"form"\s*:\s*"[^"]\+"' | sed 's/"form"\s*:\s*//' | sort | uniq -c | sort -nr
 
 
