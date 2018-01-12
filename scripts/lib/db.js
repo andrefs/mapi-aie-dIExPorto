@@ -24,7 +24,8 @@ const Article = mongoose.model('Article', {
   fetch: {
     firstDate: Date,
     body: String,
-    author: String
+    author: String,
+    html: String
   },
   nlp: {
     freeling: Object,

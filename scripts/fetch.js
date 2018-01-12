@@ -3,6 +3,7 @@ const Promise = require('bluebird');
 const {mongoose,Article} = require('./lib/db');
 const {URL} = require('url');
 const util = require('util');
+const rp   = require('request-promise');
 
 mongoose.connect('mongodb://localhost/aie_develop');
 
@@ -28,7 +29,7 @@ const getCrawledArticles = () => {
       }
     ]
   };
-  return Article.find(query).limit(80).lean().exec();
+  return Article.find(query).limit(80).exec();
 }
 
 const splitByDomain = (articles) => {
@@ -44,22 +45,26 @@ const splitByDomain = (articles) => {
 const fetchArticlesWithDelay = (articles, duration) => {
   return Promise.mapSeries(articles, a => {
     return getArticleData(a)
-      //.then(() => console.log('Fetched article', a.url))
+      .then(() => console.log('Fetched article', a.url))
       .then(delay(duration))
   });
 }
 
 const getArticleData = article => {
   pushToCurReqs(article, currentRequests);
-  curReqsToString();
-  const duration = Math.floor(Math.random()*4000)+1;
-  return Promise.resolve({cenas:'coiso'})
-    .then(delay(duration))
-    .then(x => {
+  //curReqsToString();
+
+  return rp(article.url)
+    .then(html => {
       popFromCurReqs(article, currentRequests);
-      curReqsToString();
-      return x;
-    });
+  //    curReqsToString();
+      article.fetch = {
+        html,
+        status: 'success',
+        firstDate: new Date(),
+      };
+      return article.save();
+    })
 }
 
 const pushToCurReqs = (article, curReqs) => {
@@ -73,6 +78,7 @@ const popFromCurReqs = (article, curReqs) => {
   curReqs[domain] = curReqs[domain] || {};
   delete curReqs[domain][article.origId];
 }
+
 
 
 getCrawledArticles()
