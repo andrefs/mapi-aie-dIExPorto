@@ -1,11 +1,14 @@
 {
   "dependencies": {
     "bluebird": "^3.5.1",
+    "cheerio": "^1.0.0-rc.2",
+    "iconv-lite": "^0.4.19",
     "md5": "^2.2.1",
     "mongoose": "5.0.0-rc1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
-    "rss-parser": "^2.11.0",
-    "string-to-stream": "^1.1.0"
+    "rss-parser": "https://github.com/bobby-brennan/rss-parser#v3",
+    "string-to-stream": "^1.1.0",
+    "util": "^0.10.3"
   }
 }

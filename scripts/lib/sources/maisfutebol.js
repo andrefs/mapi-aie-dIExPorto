@@ -10,5 +10,19 @@ module.exports = {
     const url = new URL(a.url);
     url.pathname.match(/\/([\w-]+)$/);
     return md5(RegExp.$1);
+  },
+  parseHtml: (html, article) => {
+    const $ = cheerio.load(html);
+    const lead = $('.topoArtigo h2').text();
+    const body = $('.articleBody p')
+      .map((i,p) => $(p).text())
+      .get()
+      .join('\n');
+    article.fetch = {
+      firstDate: new Date(),
+      lead,
+      text: body,
+    };
+    return article.save();
   }
 };

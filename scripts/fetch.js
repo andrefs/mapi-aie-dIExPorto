@@ -1,9 +1,10 @@
-
 const Promise = require('bluebird');
 const {mongoose,Article} = require('./lib/db');
 const {URL} = require('url');
 const util = require('util');
 const rp   = require('request-promise');
+const sources = require('./lib/sources');
+mongoose.set('debug', true);
 
 mongoose.connect('mongodb://localhost/aie_develop');
 
@@ -51,20 +52,17 @@ const fetchArticlesWithDelay = (articles, duration) => {
 }
 
 const getArticleData = article => {
+  const source = sources[article.source];
   pushToCurReqs(article, currentRequests);
   //curReqsToString();
 
   return rp(article.url)
     .then(html => {
       popFromCurReqs(article, currentRequests);
-  //    curReqsToString();
-      article.fetch = {
-        html,
-        status: 'success',
-        firstDate: new Date(),
-      };
-      return article.save();
-    })
+      //curReqsToString();
+
+      return source.parseHtml(html, article);
+    });
 }
 
 const pushToCurReqs = (article, curReqs) => {

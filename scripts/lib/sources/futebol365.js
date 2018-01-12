@@ -9,5 +9,8 @@ module.exports = {
     const url = new URL(a.url);
     url.pathname.match(/^\/artigo\/(\d+)/);
     return RegExp.$1;
+  },
+  parseHtml: (html, article) => {
+    return article.save();
   }
 };

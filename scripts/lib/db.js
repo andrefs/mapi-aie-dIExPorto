@@ -23,10 +23,8 @@ const Article = mongoose.model('Article', {
   },
   fetch: {
     firstDate: Date,
-    lead: String,
     text: String,
-    author: String,
-    html: String
+    lead: String
   },
   nlp: {
     freeling: Object,
