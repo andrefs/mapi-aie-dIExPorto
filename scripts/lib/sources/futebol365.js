@@ -11,6 +11,17 @@ module.exports = {
     return RegExp.$1;
   },
   parseHtml: (html, article) => {
+    const $ = cheerio.load(html);
+    const lead = $('.detalheNoticia .texto span.negrito').text();
+    const body = $('.detalheNoticia .texto p')
+      .map((i,p) => $(p).text())
+      .get()
+      .join('\n');
+    article.fetch = {
+      firstDate: new Date(),
+      lead,
+      text: body,
+    };
     return article.save();
   }
 };
