@@ -25,7 +25,7 @@ const sources = {
     urlTag: 'link',
     getOrigId: a => {
       const url = new URL(a.url);
-      url.pathname.match(/^\/(\w+)$/);
+      url.pathname.match(/\/([\w-]+)$/);
       return md5(RegExp.$1);
     }
   },
@@ -35,7 +35,7 @@ const sources = {
     urlTag: 'link',
     getOrigId: a =>{
       const url = new URL(a.url);
-      return parseInt(url.searchParams.get('id'),10);
+      return url.searchParams.get('id');
     }
   }
 };
@@ -47,20 +47,18 @@ const getArticlesFromRss = source => {
       const timestamp = new Date();
       let articles = [];
       feed.items.forEach(e => {
-      //console.log('XXXXXXXXXXx 0', e)
         let article = {
           url: e[source.urlTag],
           source: source.slug,
           pubDate: new Date(e.pubDate),
           title: e.title,
           crawl: {
-            timestamp
+            firstDate: timestamp
           }
         };
         article.origId = source.getOrigId(article);
         articles.push(article);
       });
-      //console.log('XXXXXXXXXXx 1', articles)
       return articles;
     });
 };
@@ -86,15 +84,15 @@ crawlAllRss(sources)
 
 const createArticles = (source, articles) => {
   const query = {
-    url: {$in: articles.map(a => a.url)}
+    origId: {$in: articles.map(a => a.origId)}
   };
-  return Article.find(query).select('url').lean().exec()
+  return Article.find(query).select('origId').lean().exec()
     .then(existingArticles => {
-      const existingUrls = existingArticles.map(a => a.url);
-      const newArticles  = articles.filter(a => !existingUrls.includes(a.url));
+      const existingIds = existingArticles.map(a => a.origId);
+      const newArticles  = articles.filter(a => !existingIds.includes(a.origId));
       console.info('Found',articles.length,'articles from',source.slug);
       if(!newArticles){
-        console.log('  no new articles');r
+        console.log('  no new articles');
         return [];
       }
       else {
