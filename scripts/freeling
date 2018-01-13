@@ -1,3 +1,8 @@
 #!/bin/bash
 
-fl_analyze -f scripts/pt.cfg --noflush --output json < $1 > $2
+while (true); do
+    echo -e "\n\n" >> logs/freeling.log
+    date >> logs/freeling.log
+    node scripts/freeling.js  2>&1 >> logs/freeling.log &
+    sleep 11m
+done

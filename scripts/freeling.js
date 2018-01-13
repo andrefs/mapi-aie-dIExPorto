@@ -3,17 +3,17 @@ const {mongoose,Article} = require('./lib/db');
 const sources = require('./lib/sources');
 const spawn = require('child_process').spawn;
 
-mongoose.set('debug', true);
 mongoose.connect('mongodb://localhost/aie_develop');
 
 
 const getFetchedArticles = () => {
+  console.log('Querying for articles to analyze');
   const query = {
     'fetch.status':'success',
     'nlp.status':{$ne:'success'},
     'nlp.freeling':{$exists:false}
   };
-  return Article.find(query).limit(1).exec();
+  return Article.find(query).exec();
 }
 
 const spawn_freeling = text => {
@@ -74,14 +74,19 @@ const renameTypeProp = fl_result => {
 
 getFetchedArticles()
   .then(articles => {
+    if(!articles.length){
+      console.log('No articles left to analyze');
+      return Promise.resolve();
+    }
+    console.log('Found', articles.length, 'articles');
     return Promise.mapSeries(articles, a => {
-      console.log('ArticleID:',a.origId);
       let text = a.title;
       if(a.fetch.lead){ text += '\n' + a.fetch.lead; }
       text += '\n' + a.fetch.text;
 
       return spawn_freeling(text)
         .then(fl_result => {
+          console.log('Analyzed article "'+a.title+'" ('+a.origId+'), saving...');
           a.nlp = a.nlp || {};
           a.nlp.firstDate = new Date();
           a.nlp.freeling = renameTypeProp(fl_result);
@@ -89,5 +94,6 @@ getFetchedArticles()
         });
     })
   })
+  .then(() => mongoose.disconnect());
 
 

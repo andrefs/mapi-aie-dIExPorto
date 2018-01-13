@@ -1,0 +1,3 @@
+#!/bin/bash
+
+fl_analyze -f scripts/pt.cfg --noflush --output json < $1 > $2

@@ -6,8 +6,11 @@ fetch:
 crawl:
 	scripts/crawl & echo $$! > logs/crawl.pid
 
+freeling:
+	scripts/freeling & echo $$! > logs/freeling.pid
+
 show_daemons:
-	ps aux | grep -P 'crawl|fetch' | grep bash
+	ps aux | grep -P 'crawl|fetch|freeling|fl_analyze' | grep bash
 
 # OLD
 

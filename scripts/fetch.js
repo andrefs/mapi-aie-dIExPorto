@@ -84,6 +84,6 @@ getCrawledArticles()
     const promises = Object.values(domains).map(d => fetchArticlesWithDelay(d, 5000)); // FIXME duration should come from source profile
     return Promise.all(promises);
   })
-  //.then(console.log);
+  then(() => mongoose.disconnect())
 
 const delay = time => (result) => new Promise(resolve => setTimeout(() => resolve(result), time));
