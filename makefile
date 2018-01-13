@@ -1,3 +1,15 @@
+# NEW
+
+fetch:
+	scripts/fetch & echo $$! > logs/fetch.pid
+
+crawl:
+	scripts/crawl & echo $$! > logs/crawl.pid
+
+show_daemons:
+	ps aux | grep -P 'crawl|fetch' | grep bash
+
+# OLD
 
 TXTS=$(wildcard txts/*.txt)
 JSONS=$(subs .txt,.json,cenas.txt)
@@ -10,7 +22,6 @@ txts/%.txt: htmls/%.html
 
 jsons/%.json: txts/%.txt
 	scripts/freeling $< $@
-
 
 NER:
 	grep NP00000 jsons/*.json  | grep -o '"form"\s*:\s*"[^"]\+"' | sed 's/"form"\s*:\s*//' | sort | uniq -c | sort -nr

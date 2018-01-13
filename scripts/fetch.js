@@ -4,7 +4,6 @@ const {URL} = require('url');
 const util = require('util');
 const rp   = require('request-promise');
 const sources = require('./lib/sources');
-mongoose.set('debug', true);
 
 mongoose.connect('mongodb://localhost/aie_develop');
 

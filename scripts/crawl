@@ -1,0 +1,8 @@
+#!/bin/bash
+
+while (true); do
+    echo -e "\n\n" >> logs/crawl.log
+    date >> logs/crawl.log
+    node scripts/crawl.js  2>&1 >> logs/crawl.log &
+    sleep 13m
+done
