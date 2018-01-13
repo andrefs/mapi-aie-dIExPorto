@@ -79,11 +79,19 @@ const popFromCurReqs = (article, curReqs) => {
 
 
 getCrawledArticles()
-  .then(splitByDomain)
+  .then(articles => {
+    if(!articles.length){
+      console.log('No articles left to fetch');
+      mongoose.disconnect();
+      process.exit(0);
+    }
+    console.log('Found', articles.length, 'articles');
+    return splitByDomain(articles);
+  })
   .then(domains => {
     const promises = Object.values(domains).map(d => fetchArticlesWithDelay(d, 5000)); // FIXME duration should come from source profile
     return Promise.all(promises);
   })
-  then(() => mongoose.disconnect())
+  .then(() => mongoose.disconnect())
 
 const delay = time => (result) => new Promise(resolve => setTimeout(() => resolve(result), time));
