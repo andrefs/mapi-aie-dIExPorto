@@ -28,8 +28,27 @@ const Article = mongoose.model('Article', {
     status: String
   },
   nlp: {
-    freeling: Object,
-    //entities
+    firstDate: Date,
+    freeling: {
+      sentences: [{
+        id: Number,
+        tokens: [{
+          id       : String,
+          begin    : Number,
+          end      : Number,
+          form     : String,
+          lemma    : String,
+          tag      : String,
+          ctag     : String,
+          pos      : String,
+          nounType : String,
+          mood     : String,
+          tense    : String,
+          person   : Number,
+          num      : String
+        }]
+      }]
+    },
   }
 });
 

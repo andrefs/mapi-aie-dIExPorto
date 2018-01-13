@@ -3,6 +3,7 @@ const {mongoose,Article} = require('./lib/db');
 const sources = require('./lib/sources');
 const spawn = require('child_process').spawn;
 
+mongoose.set('debug', true);
 mongoose.connect('mongodb://localhost/aie_develop');
 
 
@@ -12,27 +13,15 @@ const getFetchedArticles = () => {
     'nlp.status':{$ne:'success'},
     'nlp.freeling':{$exists:false}
   };
-  return Article.find(query).limit(80).exec();
+  return Article.find(query).limit(1).exec();
 }
 
-const str = `Yacine Brahimi e Moussa Marega evoluíram este sábado para treino de recuperação ativa, segundo informou o FC Porto.
-
-Depois de uma sexta-feira diferente, passada no spa, e na qual os dois jogadores em questão fizeram apenas tratamento, o treino deste sábado voltou a realizar-se no Olival.
-
-Otávio voltou a ficar de fora, fazendo treino condicionado e trabalho de ginásio, enquanto Diogo Dalot trabalhou com a equipa B.
-
-Os portistas voltam a treinar no domingo, a partir das 10h00, e Sérgio Conceição fará a partir das 11h30 a antevisão ao encontro de segunda-feira com o Estoril.
-
-Acompanhe aqui o Estoril Praia x FC Porto em direto e ao minuto, com todas as estatísticas e as curiosidades mais interessantes.
-`;
-
-
-const spawn_freeling = stdin => {
+const spawn_freeling = text => {
   const cmd = 'fl_analyze'
   const cmd_args = ['-f','scripts/pt.cfg','--noflush','--output','json'];
 
   const fl = spawn(cmd, cmd_args);
-  fl.stdin.write(str);
+  fl.stdin.write(text);
   fl.stdin.end();
 
   let json = '';
@@ -71,5 +60,34 @@ const parseFreeling = json => {
   return result;
 }
 
-spawn_freeling()
-  .then(s => console.log(JSON.stringify(s, null, 4)));
+const renameTypeProp = fl_result => {
+  fl_result.sentences.forEach(s => {
+    s.tokens.forEach(t => {
+      if(t.type){
+        t.nounType = t.type;
+        delete t.type;
+      }
+    });
+  });
+  return fl_result;
+}
+
+getFetchedArticles()
+  .then(articles => {
+    return Promise.mapSeries(articles, a => {
+      console.log('ArticleID:',a.origId);
+      let text = a.title;
+      if(a.fetch.lead){ text += '\n' + a.fetch.lead; }
+      text += '\n' + a.fetch.text;
+
+      return spawn_freeling(text)
+        .then(fl_result => {
+          a.nlp = a.nlp || {};
+          a.nlp.firstDate = new Date();
+          a.nlp.freeling = renameTypeProp(fl_result);
+          return a.save();
+        });
+    })
+  })
+
+
