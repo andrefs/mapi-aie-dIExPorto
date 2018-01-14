@@ -10,6 +10,7 @@ const getFetchedArticles = () => {
   console.log('Querying for articles to analyze');
   const query = {
     'fetch.status':'success',
+    'fetch.text':{$exists:true},
     'nlp.status':{$ne:'success'},
     'nlp.freeling':{$exists:false}
   };
@@ -18,7 +19,7 @@ const getFetchedArticles = () => {
 
 const spawn_freeling = text => {
   const cmd = 'fl_analyze'
-  const cmd_args = ['-f','scripts/pt.cfg','--noflush','--output','json'];
+  const cmd_args = ['-f','scripts/pt.cfg','--noflush','--nec','--output','json'];
 
   const fl = spawn(cmd, cmd_args);
   fl.stdin.write(text);
