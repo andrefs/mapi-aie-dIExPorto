@@ -29,7 +29,7 @@ const getCrawledArticles = () => {
       }
     ]
   };
-  return Article.find(query).limit(80).exec();
+  return Article.find(query).limit(1000).exec();
 }
 
 const splitByDomain = (articles) => {
@@ -61,6 +61,14 @@ const getArticleData = article => {
       //curReqsToString();
 
       return source.parseHtml(html, article);
+    })
+    .catch(e => {
+      console.log('Failed fetching article',article.url);
+      article.fetch = {
+        firstDate: new Date(),
+        status: 'failed'
+      };
+      return article.save();
     });
 }
 
