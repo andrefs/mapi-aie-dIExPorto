@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mongoexport -d aie_develop -c articles -o db_backups/articles.json
+
