@@ -81,6 +81,14 @@ getFetchedArticles()
     }
     console.log('Found', articles.length, 'articles');
     return Promise.mapSeries(articles, a => {
+      if(!a.fetch.text){
+        a.nlp = {
+          status: 'fail',
+          firstDate: new Date()
+        };
+        return a.save();
+      }
+
       let text = a.title;
       if(a.fetch.lead){ text += '\n' + a.fetch.lead; }
       text += '\n' + a.fetch.text;
@@ -89,6 +97,7 @@ getFetchedArticles()
         .then(fl_result => {
           console.log('Analyzed article "'+a.title+'" ('+a.origId+'), saving...');
           a.nlp = a.nlp || {};
+          a.nlp.status = 'success';
           a.nlp.firstDate = new Date();
           a.nlp.freeling = renameTypeProp(fl_result);
           return a.save();

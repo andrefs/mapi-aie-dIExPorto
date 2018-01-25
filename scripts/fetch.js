@@ -66,7 +66,7 @@ const getArticleData = article => {
       console.log('Failed fetching article',article.url);
       article.fetch = {
         firstDate: new Date(),
-        status: 'failed'
+        status: 'fail'
       };
       return article.save();
     });
