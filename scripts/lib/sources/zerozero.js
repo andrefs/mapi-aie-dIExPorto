@@ -9,6 +9,7 @@ module.exports = {
     const url = new URL(a.url);
     return url.searchParams.get('id');
   },
+  crawlOptions: {encoding: 'binary'},
   fetchOptions: {encoding: 'binary'},
   fetchCooldown: 15000,
   parseHtml: (html, article) => {
