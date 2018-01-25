@@ -25,6 +25,7 @@ const Article = mongoose.model('Article', {
   fetch: {
     firstDate: Date,
     text: String,
+    html: String,
     lead: String,
     status: String
   },
