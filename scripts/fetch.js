@@ -45,8 +45,6 @@ const splitByDomain = (articles) => {
 const fetchArticlesWithDelay = (articles, duration) => {
   return Promise.mapSeries(articles, a => {
     return getArticleData(a)
-      .then(() => console.log('Fetched article', a.url))
-      .then(delay(duration))
   });
 }
 
@@ -57,13 +55,15 @@ const getArticleData = article => {
 
   return rp(article.url)
     .then(html => {
+      console.log('Fetched article', article.url, '(cooldown '+(source.fetchCooldown/1000)+'s)');
       popFromCurReqs(article, currentRequests);
       //curReqsToString();
 
       return source.parseHtml(html, article);
     })
+    .then(delay(source.fetchCooldown ||5000))
     .catch(e => {
-      console.log('Failed fetching article',article.url);
+      console.warn('Failed fetching article',article.url,e);
       article.fetch = {
         firstDate: new Date(),
         status: 'fail'
@@ -97,7 +97,7 @@ getCrawledArticles()
     return splitByDomain(articles);
   })
   .then(domains => {
-    const promises = Object.values(domains).map(d => fetchArticlesWithDelay(d, 5000)); // FIXME duration should come from source profile
+    const promises = Object.values(domains).map(fetchArticlesWithDelay); // FIXME duration should come from source profile
     return Promise.all(promises);
   })
   .then(() => mongoose.disconnect())
