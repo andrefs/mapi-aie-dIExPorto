@@ -1,14 +1,18 @@
 
 const Promise = require('bluebird');
-const Parser = require('rss-parser');
-const parser = Promise.promisifyAll(new Parser());
+const parseXml = Promise.promisify(require('fast-feed').parse);
 const {mongoose,Article} = require('./lib/db');
 const sources = require('./lib/sources');
+const rp = require('request-promise');
 
 mongoose.connect('mongodb://localhost/aie_develop');
 
 const getArticlesFromRss = source => {
-  return parser.parseURLAsync(source.rssUrl)
+  let options = source.crawlOptions || {};
+  options.uri = source.rssUrl;
+
+  return rp(options)
+    .then(parseXml)
     .then(feed => {
       const timestamp = new Date();
       let articles = [];
@@ -16,7 +20,7 @@ const getArticlesFromRss = source => {
         let article = {
           url: e[source.urlTag],
           source: source.slug,
-          pubDate: new Date(e.pubDate),
+          pubDate: new Date(e.date),
           title: e.title,
           crawl: {
             firstDate: timestamp
