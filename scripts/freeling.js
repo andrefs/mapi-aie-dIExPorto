@@ -11,8 +11,7 @@ const getFetchedArticles = () => {
   const query = {
     'fetch.status':'success',
     'fetch.text':{$exists:true},
-    'nlp.status':{$ne:'success'},
-    'nlp.freeling':{$exists:false}
+    'nlp.status':{$exists:false},
   };
   return Article.find(query).exec();
 }
@@ -95,7 +94,7 @@ getFetchedArticles()
 
       return spawn_freeling(text)
         .then(fl_result => {
-          console.log('Analyzed article "'+a.title+'" ('+a.origId+'), saving...');
+          console.log('Analyzed article "'+a.title+'" ('+a.origId+' from '+a.source+'), saving...');
           a.nlp = a.nlp || {};
           a.nlp.status = 'success';
           a.nlp.firstDate = new Date();

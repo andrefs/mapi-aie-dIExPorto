@@ -9,6 +9,7 @@ module.exports = {
     const url = new URL(a.url);
     return url.searchParams.get('id');
   },
+  fetchCooldown: 15000,
   parseHtml: (html, article) => {
     const $ = cheerio.load(html);
     const title = $('#news_body .title h1').text(); //FIXME if !title status should not be success
@@ -16,10 +17,18 @@ module.exports = {
       .map((i,p) => $(p).text())
       .get()
       .join('\n');
+    if(body.length === 0 || body.matches(/^\s+%/)){
+      article.fetch = {
+        html,
+        firstDate: new Date(),
+        status: 'fail',
+      };
+      return article.save();
+    }
     article.title = title;
     article.fetch = {
       html,
-      body,
+      text: body,
       status: 'success',
       firstDate: new Date(),
     };

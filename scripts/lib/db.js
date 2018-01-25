@@ -19,6 +19,7 @@ const Article = mongoose.model('Article', {
   title: String,
   crawl: {
     firstDate: Date,
+    status: String,
     lastDate: Date
   },
   fetch: {
@@ -29,6 +30,7 @@ const Article = mongoose.model('Article', {
   },
   nlp: {
     firstDate: Date,
+    status: String,
     freeling: {
       sentences: [{
         id: Number,

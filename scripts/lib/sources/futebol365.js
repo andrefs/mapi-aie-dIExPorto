@@ -10,6 +10,7 @@ module.exports = {
     url.pathname.match(/^\/artigo\/(\d+)/);
     return RegExp.$1;
   },
+  fetchCooldown: 5000,
   parseHtml: (html, article) => {
     const $ = cheerio.load(html);
     const lead = $('.detalheNoticia .texto span.negrito').text();
@@ -17,7 +18,16 @@ module.exports = {
       .map((i,p) => $(p).text())
       .get()
       .join('\n');
+    if(body.length === 0 || body.matches(/^\s+%/)){
+      article.fetch = {
+        html,
+        firstDate: new Date(),
+        status: 'fail',
+      };
+      return article.save();
+    }
     article.fetch = {
+      html,
       firstDate: new Date(),
       lead,
       status: 'success',

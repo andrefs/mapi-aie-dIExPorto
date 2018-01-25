@@ -11,6 +11,7 @@ module.exports = {
     url.pathname.match(/\/([\w-]+)$/);
     return md5(RegExp.$1);
   },
+  fetchCooldown: 5000,
   parseHtml: (html, article) => {
     const $ = cheerio.load(html);
     const lead = $('.topoArtigo h2').text();
@@ -18,7 +19,16 @@ module.exports = {
       .map((i,p) => $(p).text())
       .get()
       .join('\n');
+    if(body.length === 0 || body.matches(/^\s+%/)){
+      article.fetch = {
+        html,
+        firstDate: new Date(),
+        status: 'fail',
+      };
+      return article.save();
+    }
     article.fetch = {
+      html,
       firstDate: new Date(),
       lead,
       status: 'success',
