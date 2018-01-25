@@ -19,7 +19,8 @@ module.exports = {
       .map((i,p) => $(p).text())
       .get()
       .join('\n');
-    if(body.length === 0 || body.matches(/^\s+%/)){
+    if(!body || body.length === 0 || body.match(/^\s+$/)){
+      console.log('Empty body on article',article.url+', discarding...');
       article.fetch = {
         html,
         firstDate: new Date(),
