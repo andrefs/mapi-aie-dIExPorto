@@ -53,7 +53,10 @@ const getArticleData = article => {
   pushToCurReqs(article, currentRequests);
   //curReqsToString();
 
-  return rp(article.url)
+  let options = source.fetchOptions || {};
+  options.uri = article.url;
+
+  return rp(options)
     .then(html => {
       console.log('Fetched article', article.url, '(cooldown '+(source.fetchCooldown/1000)+'s)');
       popFromCurReqs(article, currentRequests);
