@@ -13,6 +13,15 @@ module.exports = {
   },
   fetchCooldown: 5000,
   parseHtml: (html, article) => {
+    if(article.title && article.title.match(/^VÍDEO/)){
+      console.log('Video in', article.url);
+      article.fetch = {
+        html,
+        firstDate: new Date(),
+        status: 'fail',
+      };
+      return article.save();
+    }
     const $ = cheerio.load(html);
     const lead = $('.topoArtigo h2').text();
     const body = $('.articleBody p')

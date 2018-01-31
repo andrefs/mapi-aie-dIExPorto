@@ -36,7 +36,10 @@ const getArticlesFromRss = source => {
 const crawlRss = source => {
   return getArticlesFromRss(source)
     .then(articles => {
-      return createArticles(source, articles);
+      const relevantArticles = source.ignoreArticles ?
+        articles.filter(source.ignoreArticles) :
+        articles;
+      return createArticles(source, relevantArticles);
     });
 };
 
