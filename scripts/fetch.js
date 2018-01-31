@@ -66,7 +66,7 @@ const getArticleData = article => {
     })
     .then(delay(source.fetchCooldown ||5000))
     .catch(e => {
-      console.warn('Failed fetching article',article.url,e);
+      console.warn('Failed fetching article',article.url, e.statusCode || e);
       article.fetch = {
         firstDate: new Date(),
         status: 'fail'
