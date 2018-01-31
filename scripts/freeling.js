@@ -88,9 +88,16 @@ getFetchedArticles()
         return a.save();
       }
 
+      // Title
       let text = a.title;
-      if(a.fetch.lead){ text += '\n' + a.fetch.lead; }
-      text += '\n' + a.fetch.text;
+      if(!text.match(/[\s?!]$/)){ text += '.'; }
+
+      // Lead
+      if(a.fetch.lead){ text += ' ' + a.fetch.lead; }
+      if(!text.match(/[\s?!\.]$/)){ text += '.'; }
+
+      // Body
+      text += ' ' + a.fetch.text.replace(/\n/g, ' ').replace(/\s+/g, ' ');
 
       return spawn_freeling(text)
         .then(fl_result => {
