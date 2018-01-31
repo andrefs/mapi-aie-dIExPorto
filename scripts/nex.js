@@ -35,7 +35,8 @@ getAnalyzedArticles()
       allTokens.other.push(...tokens.other);
     });
     return saveAll(allTokens);
-  });
+  })
+  .then(() => mongoose.disconnect());
 
 
 
