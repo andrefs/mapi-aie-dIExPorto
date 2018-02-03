@@ -21,9 +21,9 @@ module.exports = class RelExRule {
       }
     });
 
-    if(this.selList.length === matched.length){
-      console.log('XXXXXXXX 2', matched);
-    }
+    //if(this.selList.length === matched.length){
+    //  console.log('XXXXXXXX 2', matched);
+    //}
     return this.selList.length === matched.length;
   }
 

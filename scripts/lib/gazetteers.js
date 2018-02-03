@@ -17,7 +17,6 @@ const _list = [
 
 
 const runGazetteers = articles => {
-
   articles.forEach(a => {
     a.nlp.freeling.sentences.forEach(s => {
       s.tokens = s.tokens.map(t => {
