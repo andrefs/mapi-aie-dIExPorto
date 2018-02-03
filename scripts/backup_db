@@ -1,4 +1,5 @@
 #!/bin/bash
 
-mongoexport -d aie_develop -c articles -o db_backups/articles.json
+mongoexport -d aie_develop -c articles -o db_backups/$(date '+%Y%m%d_%H%M%S')_articles.json
+
 
