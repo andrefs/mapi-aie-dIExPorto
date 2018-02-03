@@ -11,10 +11,10 @@ module.exports = class Selector {
 
 
   _match(sel, token){
-    if(Array.isArray(sel)){ return this._matchAny(sel, obj); }
+    if(Array.isArray(sel)){ return this._matchAny(sel, token); }
 
     let res = true;
-    Object.keys(sel).forEach(k => {
+      Object.keys(sel).forEach(k => {
       res = res && this._matchVal(sel[k], token[k]);
     });
     return res;
@@ -24,7 +24,7 @@ module.exports = class Selector {
   _matchAny(sels, token){
     let res = false;
     sels.forEach(sel => {
-      res = res || selMatch(sel, token);
+      res = res || this._match(sel,token);
     });
     return res;
   }
