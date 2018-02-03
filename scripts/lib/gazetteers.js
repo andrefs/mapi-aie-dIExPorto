@@ -1,16 +1,27 @@
 const Selector = require('./selector');
 
 const _list = [
-  {
-    sel: {lemma: 'maisfutebol'},
-    fix: {tag: 'NP00V00'}
-  },
+  // Teams
   {
     sel: {lemma: 'vitória_de_setúbal'},
     fix: {tag: 'NP00O00'}
   },
   {
+    sel: {lemma: 'bayern_munique'},
+    fix: {tag: 'NP00O00'}
+  },
+
+  // Others
+  {
+    sel: {lemma: 'maisfutebol'},
+    fix: {tag: 'NP00V00'}
+  },
+  {
     sel: {lemma: 'jogo', ctag: 'NP'},
+    fix: {tag: 'NP00V00'}
+  },
+  {
+    sel: {lemma: 'the_sun', ctag: 'NP'},
     fix: {tag: 'NP00V00'}
   }
 ].map(x => { return {sel: new Selector(x.sel), fix: x.fix}; });
