@@ -28,6 +28,9 @@ let currentRequests = {};
 //   }
 // };
 
+
+// http://www.maisfutebol.iol.pt/mercado/transferencias/sporting-liam-jordan-na-dinamarca-por-emprestimo
+//
 const emprestimoRule = new RelExRule([
   {tag: 'NP00O00'},
   {pos: 'verb', lemma: 'emprestar', person: 3},
@@ -35,6 +38,15 @@ const emprestimoRule = new RelExRule([
   {tag: 'NP00O00'}
 ]);
 
+// http://www.futebol365.pt/artigo/183001-mercado-bayern-munique-esta-interessado-em-gelson-martins/
+// http://www.maisfutebol.iol.pt/internacional/argentina/icardi-esta-a-ser-cobicado-pelo-real-madrid-diz-sampaoli
+const interessadoRule = new RelExRule([
+  [{tag: 'NP00O00'},{tag: 'NP00SP0'}],
+  {form: 'interessado'}
+]);
+
+// -----------------------
+//
 const arbitroRule = new RelExRule([
   {tag: 'NP00SP0'},
   {lemma:'criticar'},
