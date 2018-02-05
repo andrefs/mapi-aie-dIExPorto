@@ -2,8 +2,9 @@ const Selector = require('./selector');
 
 module.exports = class RelExRule {
 
-  constructor(selList){
+  constructor(selList, handler){
     this.selList = selList.map(sel => new Selector(sel));
+    this.handler = handler;
   }
 
   matchOrdered(sentence){
@@ -21,10 +22,10 @@ module.exports = class RelExRule {
       }
     });
 
-    //if(this.selList.length === matched.length){
-    //  console.log('XXXXXXXX 2', matched);
-    //}
-    return this.selList.length === matched.length;
+    if(this.selList.length === matched.length && this.handler){
+      return this.handler(matched);
+    }
+    return null;
   }
 
 };
