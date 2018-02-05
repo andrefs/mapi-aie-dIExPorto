@@ -69,8 +69,7 @@ const individuals = [{
 }]
 
 
-const source = `
-<?xml version="1.0"?>
+const source = `<?xml version="1.0"?>
 <rdf:RDF xmlns="http://www.semanticweb.org/andrefs/ontologies/diexporto#"
   xml:base="http://www.semanticweb.org/andrefs/ontologies/diexporto"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
