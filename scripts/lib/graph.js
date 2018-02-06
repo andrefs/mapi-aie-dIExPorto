@@ -13,8 +13,6 @@ const source = `
 
     <style type="text/css">
         #mynetwork {
-            width: 600px;
-            height: 400px;
             border: 1px solid lightgray;
         }
     </style>
@@ -52,7 +50,7 @@ const generate = (individuals, opts) => {
   let _nodes = {};
   let _edges = {};
   individuals.forEach(i => {
-    _nodes[i.name] = i.name;
+    _nodes[i.name] = i;
     if(i.rels){
       _edges[i.name] = _edges[i.name] || {};
       _edges[i.name].borrowedFrom = i.rels.borrowedFrom;
@@ -60,7 +58,14 @@ const generate = (individuals, opts) => {
     }
   });
 
-  const nodes = Object.keys(_nodes).map(k => { return {id: k, label: _nodes[k]}; });
+  const nodes = Object.values(_nodes).map(individual => {
+    let node = {id: individual.name, label: individual.name};
+    if(individual.className === 'Athlete'){
+      node.image = './tshirt.jpg';
+      node.shape = 'image';
+    }
+    return node;
+  });
   let edges = [];
   Object.keys(_edges).forEach(player => {
     edges.push({from: player, to: _edges[player].borrowedFrom});
