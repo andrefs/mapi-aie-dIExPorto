@@ -11,11 +11,14 @@ mongoose.connect('mongodb://localhost/aie_develop');
 const query  = {'nlp.status':'success'};
 
 const rule = new RelExRule([
-  {tag: 'NP00O00'},
-  {pos: 'verb', lemma: 'emprestar', person: 3},
-  {tag: 'NP00SP0'},
-  {tag: 'NP00O00'}
-]);
+      {tag: 'NP00O00'},
+      {pos: 'verb', lemma: 'emprestar', person: 3},
+      {tag: 'NP00SP0'},
+      {tag: 'NP00O00'}
+], (matched, context) => {
+  console.log('Matched ('+context.sId+')', context.url);
+  console.log('\t'+matched.map(x => x.token.form).join(' ')+'\n');
+});
 
 Article.count(query).then(total => {
   console.log('Total articles:', total);
@@ -27,7 +30,7 @@ Article.count(query).then(total => {
   }
 
   console.log('Searching for matched for rule:');
-  console.log(JSON.stringify(rule, null, 4));
+  console.log(JSON.stringify(rule));
 
   return Promise.each(promises, getArticles => {
     return getArticles().then(articles => {
@@ -41,9 +44,7 @@ Article.count(query).then(total => {
 const matchRule = (rule, articles) => {
   runGazetteers(articles).forEach(a => {
     a.nlp.freeling.sentences.forEach(s => {
-      if(rule.matchOrdered(s.tokens)){
-        console.log('Matched ('+s.id+')', a.url);
-      }
+      rule.matchOrdered(s.tokens, {url: a.url, sId: s.id});
     });
   });
 };
