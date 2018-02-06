@@ -138,7 +138,7 @@ const source = `<?xml version="1.0"?>
     <rdf:type rdf:resource="{{@root/opts.prefix}}#{{className}}"/>
     {{#if rels}}
     {{#each rels}}
-    <{{@key}} rdf:resource="{{@root/opts.prefix}}#{{this}}"/>
+    <{{name}} rdf:resource="{{@root/opts.prefix}}#{{subject}}"/>
     {{/each}}
     {{/if}}
   </owl:NamedIndividual>

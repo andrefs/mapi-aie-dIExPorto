@@ -47,30 +47,46 @@ const source = `
 
 
 const generate = (individuals, opts) => {
-  let _nodes = {};
-  let _edges = {};
+  let nodes = [];
+  let edges = [];
   individuals.forEach(i => {
-    _nodes[i.name] = i;
+    let obj = {id: i.name, label: i.name, shape: 'box'};
+    if(i.className === 'Athlete'){
+      obj.shape = 'image';
+      obj.image = './tshirt.jpg';
+    }
+    if(i.className === 'Person'){
+      obj.shape = 'image';
+      obj.image = './person.svg';
+    }
+    nodes.push(obj);
+
     if(i.rels){
-      _edges[i.name] = _edges[i.name] || {};
-      _edges[i.name].borrowedFrom = i.rels.borrowedFrom;
-      _edges[i.name].borrowedTo = i.rels.borrowedTo;
+      i.rels.forEach(rel => {
+        if(rel.name === 'borrowedFrom'){
+          edges.push({from: rel.subject, to: i.name, title: rel.name, arrows: 'to'});
+        } else if (rel.name === 'borrowedTo') {
+          edges.push({to: rel.subject, from: i.name, title: rel.name, arrows: 'to'});
+        } else if (rel.name === 'reliesOn') {
+          edges.push({to: rel.subject, from: i.name, title: rel.name, arrows: 'to'});
+        }
+      });
     }
   });
 
-  const nodes = Object.values(_nodes).map(individual => {
-    let node = {id: individual.name, label: individual.name};
-    if(individual.className === 'Athlete'){
-      node.image = './tshirt.jpg';
-      node.shape = 'image';
-    }
-    return node;
-  });
-  let edges = [];
-  Object.keys(_edges).forEach(player => {
-    edges.push({from: player, to: _edges[player].borrowedFrom});
-    edges.push({from: player, to: _edges[player].borrowedTo});
-  });
+  // const nodes = Object.values(_nodes).map(individual => {
+  //   let node = {id: individual.name, label: individual.name};
+  //   if(individual.className === 'Athlete'){
+  //     node.image = './tshirt.jpg';
+  //     node.shape = 'image';
+  //   }
+  //   return node;
+  // });
+  // let edges = [];
+  // Object.keys(_edges).forEach(player => {
+  //   edges.push({from: player, to: _edges[player].borrowedFrom});
+  //   edges.push({from: player, to: _edges[player].borrowedTo});
+  // });
 
   const data = {
     nodes,

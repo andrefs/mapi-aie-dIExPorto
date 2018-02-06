@@ -12,6 +12,7 @@
     "request-promise": "^4.2.2",
     "rss-parser": "https://github.com/bobby-brennan/rss-parser#v3",
     "string-to-stream": "^1.1.0",
+    "uniq": "^1.0.1",
     "util": "^0.10.3"
   }
 }

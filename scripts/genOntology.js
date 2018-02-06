@@ -22,7 +22,7 @@ extractRelations()
     }
     return Promise.join(
       ontology.generateToFile(ontologyFile, individuals, {prefix: ontPrefix}),
-      //graph.generateToFile(graphFile, individuals, {})
+      graph.generateToFile(graphFile, individuals, {})
     );
   })
   .then(() => mongoose.disconnect());

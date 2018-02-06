@@ -2,6 +2,7 @@ const Promise = require('bluebird');
 const {mongoose,Article} = require('./db');
 const runGazetteers = require('./gazetteers');
 const rules = require('./rules');
+const uniq = require('uniq');
 
 const extractRelations = () => {
   const query  = {'nlp.status':'success'};
@@ -33,10 +34,42 @@ const extractRelations = () => {
     })
     .then(() => {
       console.log('Extracted', allMatched.length, 'relations');
-      return allMatched;
+      return sanitizeInstances(allMatched);
     });
   });
 };
+
+const sanitizeInstances = instances => {
+  let _tmp = {};
+  instances.forEach(i => {
+    let object       = _tmp[i.name] || {};
+    object.name      = i.name;
+    object.className = i.className;
+    object.context   = i.context;
+    if(i.rels){
+      let rels = object.rels || [];
+      Object.keys(i.rels).forEach(rel => {
+        rels.push({name: rel, subject: i.rels[rel]});
+      });
+      object.rels = rels;
+    }
+    _tmp[i.name] = object;
+  });
+
+  Object.values(_tmp).forEach(obj => {
+    if(obj.rels){
+      obj.rels = uniq(obj.rels,
+        (r1, r2) => {
+          if(r1.name === r2.name && r1.subject === r2.subject){
+            return 0;
+          }
+          return 1;
+        });
+    }
+  });
+
+  return Object.values(_tmp);
+}
 
 module.exports = extractRelations;
 

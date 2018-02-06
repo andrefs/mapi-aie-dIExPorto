@@ -45,8 +45,29 @@ module.exports = {
       //return matched.map(m => m.token.form).join(' ');
     }),
 
-  apostaRule: new RelExRule([
+  apostaRule1: new RelExRule([
       [{tag: 'NP00O00'},{tag: 'NP00SP0'}],
+      {pos: 'verb', lemma: 'apostar', person: 3},
+      [{tag: 'NP00SP0'}],
+    ], (matched, context) => {
+      let res = [];
+      const class1 = matched[0].token.tag === 'NP00O00' ? 'Team' : 'Person';
+      const class2 = matched[0].token.tag === 'NP00O00' ? 'Team' : 'Person';
+
+      res.push({context, name: matched[2].token.form,  className: class2});
+      res.push({
+        context,
+        name: matched[0].token.form,
+        className: class1,
+        rels: {
+          reliesOn: matched[2].token.form,
+        }
+      });
+      return res;
+  }),
+
+  apostaRule2: new RelExRule([
+      [{tag: 'NP00SP0'}],
       {pos: 'verb', lemma: 'apostar', person: 3},
       [{tag: 'NP00O00'},{tag: 'NP00SP0'}],
     ], (matched, context) => {
