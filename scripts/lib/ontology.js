@@ -53,20 +53,20 @@ const classes = {
   footer: '',
 }
 
-const individuals = [{
-    name: 'Benfica',
-    className: 'Team',
-  },{
-    name: 'Genova',
-    className: 'Team',
-  },{
-    name: 'Pedro_Pereira',
-    className: 'Athlete',
-    rels: {
-      borrowedFrom: 'Benfica',
-      borrowedTo: 'Genova'
-    }
-}]
+// const individuals = [{
+//     name: 'Benfica',
+//     className: 'Team',
+//   },{
+//     name: 'Genova',
+//     className: 'Team',
+//   },{
+//     name: 'Pedro_Pereira',
+//     className: 'Athlete',
+//     rels: {
+//       borrowedFrom: 'Benfica',
+//       borrowedTo: 'Genova'
+//     }
+// }]
 
 
 const source = `<?xml version="1.0"?>
@@ -133,9 +133,8 @@ const source = `<?xml version="1.0"?>
 
 
 
-const generate = instances => {
+const generate = individuals => {
   const data = {
-    instances,
     relations,
     classes,
     individuals
@@ -143,7 +142,7 @@ const generate = instances => {
   return Handlebars.compile(source)(data);
 };
 
-const generateToFile = (instances, filePath) => {
+const generateToFile = (filePath, instances) => {
   return fs.writeFileAsync(filePath, generate(instances), {});
 };
 
