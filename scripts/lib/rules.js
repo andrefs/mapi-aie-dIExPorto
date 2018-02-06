@@ -8,8 +8,24 @@ module.exports = {
       {tag: 'NP00SP0'},
       {tag: 'NP00O00'}
     ],
-    matched => {
-      return matched.map(m => m.token.form).join(' ');
+    (matched, context) => {
+      let res = [];
+      const teamA = matched[0];
+      const teamB = matched[3];
+      const player = matched[2];
+      res.push({context, name: teamA.token.form,  className: 'Team'});
+      res.push({context, name: teamB.token.form,  className: 'Team'});
+      res.push({
+        context,
+        name: player.token.form,
+        className: 'Athlete',
+        rels: {
+          borrowedFrom: teamA.token.form,
+          borrowedTo: teamB.token.form,
+        }
+      });
+      return res;
+      //return matched.map(m => m.token.form).join(' ');
     }),
 
   // // http://www.futebol365.pt/artigo/183001-mercado-bayern-munique-esta-interessado-em-gelson-martins/

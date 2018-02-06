@@ -118,6 +118,9 @@ const source = `<?xml version="1.0"?>
 
 {{#each individuals}}
   <!-- http://www.semanticweb.org/andrefs/ontologies/diexporto#{{name}} -->
+  {{#if context.url}}
+  <!-- {{{context.url}}} -->
+  {{/if}}
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{name}}">
     <rdf:type rdf:resource="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{className}}"/>
     {{#if rels}}

@@ -8,6 +8,7 @@ const filePath = 'testXX.owl';
 
 extractRelations()
   .then(individuals => {
+  console.log('XXXXXXXXXXx 2', individuals);
     if(!individuals.length){
       mongoose.disconnect();
       process.exit(0);

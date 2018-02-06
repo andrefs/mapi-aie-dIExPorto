@@ -7,7 +7,7 @@ module.exports = class RelExRule {
     this.handler = handler;
   }
 
-  matchOrdered(sentence){
+  matchOrdered(sentence, context){
     let tPos=0; // current token position
     let cPos;   // current candidate position
     let matched = [];
@@ -23,9 +23,9 @@ module.exports = class RelExRule {
     });
 
     if(this.selList.length === matched.length && this.handler){
-      return this.handler(matched);
+      return this.handler(matched, context);
     }
-    return null;
+    return [];
   }
 
 };
