@@ -7,6 +7,14 @@ const _list = [
     fix: {tag: 'NP00O00'}
   },
   {
+    sel: {lemma: 'inter'},
+    fix: {
+		  form: "Inter_Milão",
+		  lemma: "inter_milão",
+		  tag: "NP00O00",
+    }
+  },
+  {
     sel: {lemma: 'bayern_munique'},
     fix: {tag: 'NP00O00'}
   },
@@ -23,6 +31,16 @@ const _list = [
   {
     sel: {lemma: 'the_sun', ctag: 'NP'},
     fix: {tag: 'NP00V00'}
+  },
+
+  // Messed up tokenization (should be fixed in Freeling) // TODO
+  {
+    sel: {lemma: 'varzim_para_o_portimonense'},
+    fix: {tag: 'NP00V00'}
+  },
+  {
+    sel: {lemma: 'série_b_do_brasil_depois'},
+    fix: {tag: 'NP00V00'}
   }
 ].map(x => { return {sel: new Selector(x.sel), fix: x.fix}; });
 
@@ -31,11 +49,11 @@ const runGazetteers = articles => {
   articles.forEach(a => {
     a.nlp.freeling.sentences.forEach(s => {
       s.tokens = s.tokens.map(t => {
-        let res;
+        let res = t;
 
         _list.forEach(rule => {
           if(!rule.sel.match(t)){
-            res = t;
+            return;
           }
           else if(rule.fix['$replace']){
             res = rule.fix['$replace'];
@@ -44,7 +62,6 @@ const runGazetteers = articles => {
             res = {...t, ...rule.fix};
           }
         });
-
         return res;
       });
     });

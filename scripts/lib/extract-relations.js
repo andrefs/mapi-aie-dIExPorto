@@ -3,26 +3,6 @@ const {mongoose,Article} = require('./db');
 const runGazetteers = require('./gazetteers');
 const rules = require('./rules');
 
-
-// const individuals = [{
-//     name: 'XXX1',
-//     className: 'Team',
-//   },{
-//     name: 'XXX2',
-//     className: 'Team',
-//   },{
-//     name: 'XXX3',
-//     className: 'Athlete',
-//     rels: {
-//       borrowedFrom: 'XXX2',
-//       borrowedTo: 'XXX1'
-//     }
-// }];
-// 
-// const extractRelations = () => {
-//   return Promise.resolve(individuals);
-// };
-
 const extractRelations = () => {
   const query  = {'nlp.status':'success'};
 
