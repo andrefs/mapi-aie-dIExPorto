@@ -2,6 +2,7 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "cheerio": "^1.0.0-rc.2",
+    "fast-feed": "^1.5.5",
     "handlebars": "^4.0.11",
     "iconv-lite": "^0.4.19",
     "md5": "^2.2.1",

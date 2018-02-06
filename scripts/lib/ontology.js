@@ -1,5 +1,4 @@
 const Handlebars = require('handlebars');
-const ontPrefix = "http://www.semanticweb.org/andrefs/ontologies/diexporto";
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 
@@ -70,28 +69,28 @@ const classes = {
 
 
 const source = `<?xml version="1.0"?>
-<rdf:RDF xmlns="http://www.semanticweb.org/andrefs/ontologies/diexporto#"
-  xml:base="http://www.semanticweb.org/andrefs/ontologies/diexporto"
+<rdf:RDF xmlns="{{opts.prefix}}#"
+  xml:base="{{opts.prefix}}"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
   xmlns:owl="http://www.w3.org/2002/07/owl#"
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
 
-  <owl:Ontology rdf:about="http://www.semanticweb.org/andrefs/ontologies/diexporto">
-    <owl:versionIRI rdf:resource="http://www.semanticweb.org/andrefs/ontologies/diexporto/0.01"/>
+  <owl:Ontology rdf:about="{{opts.prefix}}">
+    <owl:versionIRI rdf:resource="{{opts.prefix}}/0.01"/>
   </owl:Ontology>
 
 
 {{{relations.header}}}
 {{#each relations.elems}}
-  <!-- http://www.semanticweb.org/andrefs/ontologies/diexporto#{{name}} -->
-  <owl:ObjectProperty rdf:about="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{name}}">
+  <!-- {{opts.prefix}}#{{name}} -->
+  <owl:ObjectProperty rdf:about="{{@root/opts.prefix}}#{{name}}">
   {{#if inverseOf}}
-    <owl:inverseOf rdf:resource="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{inverseOf}}"/>
+    <owl:inverseOf rdf:resource="{{@root/opts.prefix}}#{{inverseOf}}"/>
   {{/if}}
-    <rdfs:domain rdf:resource="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{domain}}"/>
-    <rdfs:range rdf:resource="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{range}}"/>
+    <rdfs:domain rdf:resource="{{@root/opts.prefix}}#{{domain}}"/>
+    <rdfs:range rdf:resource="{{@root/opts.prefix}}#{{range}}"/>
   </owl:ObjectProperty>
 
 {{/each}}
@@ -99,10 +98,10 @@ const source = `<?xml version="1.0"?>
 
 {{{classes.header}}}
 {{#each classes.elems}}
-  <!-- http://www.semanticweb.org/andrefs/ontologies/diexporto#{{name}} -->
-  <owl:Class rdf:about="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{name}}">
+  <!-- {{@root/opts.prefix}}#{{name}} -->
+  <owl:Class rdf:about="{{@root/opts.prefix}}#{{name}}">
   {{#if subClassOf}}
-    <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{subClassOf}}"/>
+    <rdfs:subClassOf rdf:resource="{{@root/opts.prefix}}#{{subClassOf}}"/>
   {{/if}}
   </owl:Class>
 
@@ -117,15 +116,15 @@ const source = `<?xml version="1.0"?>
   -->
 
 {{#each individuals}}
-  <!-- http://www.semanticweb.org/andrefs/ontologies/diexporto#{{name}} -->
+  <!-- {{@root/opts.prefix}}#{{name}} -->
   {{#if context.url}}
   <!-- {{{context.url}}} -->
   {{/if}}
-  <owl:NamedIndividual rdf:about="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{name}}">
-    <rdf:type rdf:resource="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{className}}"/>
+  <owl:NamedIndividual rdf:about="{{@root/opts.prefix}}#{{name}}">
+    <rdf:type rdf:resource="{{@root/opts.prefix}}#{{className}}"/>
     {{#if rels}}
     {{#each rels}}
-    <{{@key}} rdf:resource="http://www.semanticweb.org/andrefs/ontologies/diexporto#{{this}}"/>
+    <{{@key}} rdf:resource="{{@root/opts.prefix}}#{{this}}"/>
     {{/each}}
     {{/if}}
   </owl:NamedIndividual>
@@ -136,17 +135,18 @@ const source = `<?xml version="1.0"?>
 
 
 
-const generate = individuals => {
+const generate = (individuals, opts) => {
   const data = {
     relations,
     classes,
-    individuals
+    individuals,
+    opts
   };
   return Handlebars.compile(source)(data);
 };
 
-const generateToFile = (filePath, instances) => {
-  return fs.writeFileAsync(filePath, generate(instances), {});
+const generateToFile = (filePath, instances, opts) => {
+  return fs.writeFileAsync(filePath, generate(instances, opts), {});
 };
 
 module.exports = {
