@@ -7,13 +7,23 @@ const relations = {
   elems: [{
     name: 'borrowedFrom',
     inverseOf: 'borrowedTo',
-    domain: 'Athlete',
-    range: 'Team',
+    domain: ['Athlete'],
+    range:  ['Team'],
   },{
     name: 'borrowedTo',
     inverseOf: 'borrowedFrom',
-    domain: 'Athlete',
-    range: 'Team'
+    domain: ['Athlete'],
+    range:  ['Team']
+  },{
+    name: 'reliesOn',
+    inverseOf:'isReliedUponBy',
+    domain: ['Team', 'Person'],
+    range: ['Team', 'Person']
+  },{
+    name: 'isReliedUponBy',
+    inverseOf:'reliesOn',
+    domain: ['Team', 'Person'],
+    range: ['Team', 'Person']
   }],
   footer: ''
 };
@@ -89,8 +99,12 @@ const source = `<?xml version="1.0"?>
   {{#if inverseOf}}
     <owl:inverseOf rdf:resource="{{@root/opts.prefix}}#{{inverseOf}}"/>
   {{/if}}
-    <rdfs:domain rdf:resource="{{@root/opts.prefix}}#{{domain}}"/>
-    <rdfs:range rdf:resource="{{@root/opts.prefix}}#{{range}}"/>
+  {{#each domain}}
+    <rdfs:domain rdf:resource="{{@root/opts.prefix}}#{{this}}"/>
+  {{/each}}
+  {{#each range}}
+    <rdfs:range rdf:resource="{{@root/opts.prefix}}#{{this}}"/>
+  {{/each}}
   </owl:ObjectProperty>
 
 {{/each}}

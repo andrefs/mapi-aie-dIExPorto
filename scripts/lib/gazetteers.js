@@ -32,6 +32,10 @@ const _list = [
     sel: {lemma: 'the_sun', ctag: 'NP'},
     fix: {tag: 'NP00V00'}
   },
+  {
+    sel: {lemma: 'venezuelano', ctag: 'NP'},
+    fix: {tag: 'NP00V00'}
+  },
 
   // Messed up tokenization (should be fixed in Freeling) // TODO
   {

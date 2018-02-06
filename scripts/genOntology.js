@@ -5,11 +5,14 @@ const ontology = require('./lib/ontology');
 const graph    = require('./lib/graph');
 const moment = require('moment');
 
-const ontPrefix = "http://www.semanticweb.org/andrefs/ontologies/diexporto";
-
 mongoose.connect('mongodb://localhost/aie_develop');
-const ontologyFile = 'results/diexporto-'+(moment().format('YYYYMMDD_HHmmss'))+'.owl';
-const graphFile    = 'results/diexporto-'+(moment().format('YYYYMMDD_HHmmss'))+'.html';
+
+const ontPrefix = "http://www.semanticweb.org/andrefs/ontologies/diexporto";
+//const ontologyFile = 'results/diexporto-'+(moment().format('YYYYMMDD_HHmmss'))+'.owl';
+//const graphFile    = 'results/diexporto-'+(moment().format('YYYYMMDD_HHmmss'))+'.html';
+
+const ontologyFile = 'results/diexporto.owl';
+const graphFile    = 'results/diexporto.html';
 
 extractRelations()
   .then(individuals => {
@@ -19,7 +22,7 @@ extractRelations()
     }
     return Promise.join(
       ontology.generateToFile(ontologyFile, individuals, {prefix: ontPrefix}),
-      graph.generateToFile(graphFile, individuals, {})
+      //graph.generateToFile(graphFile, individuals, {})
     );
   })
   .then(() => mongoose.disconnect());
