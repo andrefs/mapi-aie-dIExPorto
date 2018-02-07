@@ -45,7 +45,10 @@ const sanitizeInstances = instances => {
     let object       = _tmp[i.name] || {};
     object.name      = i.name;
     object.className = i.className;
-    object.context   = i.context;
+    if(i.context && i.context.url){
+      object.context = object.context || {url: []};
+      object.context.url.push(i.context.url);
+    }
     if(i.rels){
       let rels = object.rels || [];
       Object.keys(i.rels).forEach(rel => {
@@ -65,6 +68,9 @@ const sanitizeInstances = instances => {
           }
           return 1;
         });
+    }
+    if(obj.context && obj.context.url){
+      obj.context.url = uniq(obj.context.url);
     }
   });
 

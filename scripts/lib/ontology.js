@@ -132,7 +132,9 @@ const source = `<?xml version="1.0"?>
 {{#each individuals}}
   <!-- {{@root/opts.prefix}}#{{name}} -->
   {{#if context.url}}
-  <!-- {{{context.url}}} -->
+  {{#each context.url}}
+  <!-- {{{this}}} -->
+  {{/each}}
   {{/if}}
   <owl:NamedIndividual rdf:about="{{@root/opts.prefix}}#{{name}}">
     <rdf:type rdf:resource="{{@root/opts.prefix}}#{{className}}"/>
