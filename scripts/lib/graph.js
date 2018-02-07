@@ -8,8 +8,8 @@ Handlebars.registerHelper('toJSON', function(object){
 const source = `
 <html>
 <head>
-    <script type="text/javascript" src="./vis.min.js"></script>
-    <link   type="text/css"        href="./vis.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="./static/vis.min.js"></script>
+    <link   type="text/css"        href="./static/vis.min.css" rel="stylesheet"/>
 
     <style type="text/css">
         #mynetwork {
@@ -53,11 +53,11 @@ const generate = (individuals, opts) => {
     let obj = {id: i.name, label: i.name, shape: 'box'};
     if(i.className === 'Athlete'){
       obj.shape = 'image';
-      obj.image = './tshirt.jpg';
+      obj.image = './static/tshirt.jpg';
     }
     if(i.className === 'Person'){
       obj.shape = 'image';
-      obj.image = './person.svg';
+      obj.image = './static/person.svg';
     }
     nodes.push(obj);
 
@@ -73,20 +73,6 @@ const generate = (individuals, opts) => {
       });
     }
   });
-
-  // const nodes = Object.values(_nodes).map(individual => {
-  //   let node = {id: individual.name, label: individual.name};
-  //   if(individual.className === 'Athlete'){
-  //     node.image = './tshirt.jpg';
-  //     node.shape = 'image';
-  //   }
-  //   return node;
-  // });
-  // let edges = [];
-  // Object.keys(_edges).forEach(player => {
-  //   edges.push({from: player, to: _edges[player].borrowedFrom});
-  //   edges.push({from: player, to: _edges[player].borrowedTo});
-  // });
 
   const data = {
     nodes,

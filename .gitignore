@@ -1,3 +1,5 @@
 logs
-results
+results/*.html
+results/*.owl
+results/*.json
 db_backups
