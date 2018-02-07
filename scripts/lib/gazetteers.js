@@ -13,7 +13,7 @@ const _list = [
   {
     sel: {lemma: 'sp._braga'},
     fix: {
-		  form: "Sp. Braga",
+		  form: "Sp._Braga",
 		  lemma: "sp._braga",
 		  tag: "NP00O00",
     }

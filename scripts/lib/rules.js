@@ -87,6 +87,27 @@ module.exports = {
       return res;
   }),
 
+  venceRule: new RelExRule([
+      {tag: 'NP00O00'},
+      {pos: 'verb', lemma: 'vencer', person: 3},
+      {tag: 'NP00O00'}
+    ], (matched, context) => {
+      let res = [];
+      const class1 = 'Person';
+      const class2 = matched[2].token.tag === 'NP00O00' ? 'Team' : 'Person';
+
+      res.push({context, name: matched[2].token.form,  className: 'Team'});
+      res.push({
+        context,
+        name: matched[0].token.form,
+        className: 'Team',
+        rels: {
+          wonAgainst: matched[2].token.form,
+        }
+      });
+      return res;
+  }),
+
   // // http://www.futebol365.pt/artigo/183001-mercado-bayern-munique-esta-interessado-em-gelson-martins/
   // // http://www.maisfutebol.iol.pt/internacional/argentina/icardi-esta-a-ser-cobicado-pelo-real-madrid-diz-sampaoli
   // interessadoRule: new RelExRule([

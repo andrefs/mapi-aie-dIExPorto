@@ -68,7 +68,9 @@ const generate = (individuals, opts) => {
         } else if (rel.name === 'borrowedTo') {
           edges.push({to: rel.subject, from: i.name, title: rel.name, arrows: 'to'});
         } else if (rel.name === 'reliesOn') {
-          edges.push({to: rel.subject, from: i.name, title: rel.name, arrows: 'to'});
+          edges.push({to: rel.subject, from: i.name, title: rel.name, arrows: 'to', color:'orange'});
+        } else if (rel.name === 'wonAgainst') {
+          edges.push({to: rel.subject, from: i.name, title: rel.name, arrows: 'to', color: 'green'});
         }
       });
     }

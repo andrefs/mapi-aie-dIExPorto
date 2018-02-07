@@ -24,6 +24,16 @@ const relations = {
     inverseOf:'reliesOn',
     domain: ['Team', 'Person'],
     range: ['Team', 'Person']
+  },{
+    name: 'wonAgainst',
+    inverseOf:'lostAgainst',
+    domain: ['Team'],
+    range: ['Team']
+  },{
+    name:'lostAgainst',
+    inverseOf: 'wonAgainst',
+    domain: ['Team'],
+    range: ['Team']
   }],
   footer: ''
 };
