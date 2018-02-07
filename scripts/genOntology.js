@@ -11,10 +11,11 @@ mongoose.connect('mongodb://localhost/aie_develop');
 const ontPrefix = "http://www.semanticweb.org/andrefs/ontologies/diexporto";
 //const ontologyFile = 'results/diexporto-'+(moment().format('YYYYMMDD_HHmmss'))+'.owl';
 //const graphFile    = 'results/diexporto-'+(moment().format('YYYYMMDD_HHmmss'))+'.html';
+//const jsonFile     = 'results/diexporto-'+(moment().format('YYYYMMDD_HHmmss'))+'.json';
 
 const ontologyFile = 'results/diexporto.owl';
 const graphFile    = 'results/diexporto.html';
-const jsonFile     =  'results/diexporto.json';
+const jsonFile     = 'results/diexporto.json';
 
 extractRelations()
   .then(individuals => {

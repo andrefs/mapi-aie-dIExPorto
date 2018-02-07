@@ -20,6 +20,7 @@ const extractRelations = () => {
 
     return Promise.each(promises, getArticles => {
       return getArticles().then(articles => {
+        console.log('  processing', articles.length, 'articles');
         runGazetteers(articles).forEach(a => {
           a.nlp.freeling.sentences.forEach(s => {
             let matched = [];
@@ -40,6 +41,7 @@ const extractRelations = () => {
 };
 
 const sanitizeInstances = instances => {
+  console.log('Sanitizing instances (merging individuals and relations)');
   let _tmp = {};
   instances.forEach(i => {
     let object       = _tmp[i.name] || {};
@@ -74,7 +76,9 @@ const sanitizeInstances = instances => {
     }
   });
 
-  return Object.values(_tmp);
+  const res = Object.values(_tmp);
+  console.log('Finished with', res.length, 'entries');
+  return res;
 }
 
 module.exports = extractRelations;

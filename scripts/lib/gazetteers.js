@@ -50,6 +50,8 @@ const _list = [
 
 
 const runGazetteers = articles => {
+  process.stdout.write('    fixing tokens using gazetteers... ');
+  let count = 0;
   articles.forEach(a => {
     a.nlp.freeling.sentences.forEach(s => {
       s.tokens = s.tokens.map(t => {
@@ -60,9 +62,11 @@ const runGazetteers = articles => {
             return;
           }
           else if(rule.fix['$replace']){
+            count++;
             res = rule.fix['$replace'];
           }
           else {
+            count++;
             res = {...t, ...rule.fix};
           }
         });
@@ -70,6 +74,7 @@ const runGazetteers = articles => {
       });
     });
   });
+  process.stdout.write(count+' fixed\n\n');
   return articles;
 };
 
