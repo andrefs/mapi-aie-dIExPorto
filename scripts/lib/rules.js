@@ -48,11 +48,11 @@ module.exports = {
   apostaRule1: new RelExRule([
       [{tag: 'NP00O00'},{tag: 'NP00SP0'}],
       {pos: 'verb', lemma: 'apostar', person: 3},
-      [{tag: 'NP00SP0'}],
+      {tag: 'NP00SP0'},
     ], (matched, context) => {
       let res = [];
       const class1 = matched[0].token.tag === 'NP00O00' ? 'Team' : 'Person';
-      const class2 = matched[0].token.tag === 'NP00O00' ? 'Team' : 'Person';
+      const class2 = 'Person';
 
       res.push({context, name: matched[2].token.form,  className: class2});
       res.push({
@@ -67,13 +67,13 @@ module.exports = {
   }),
 
   apostaRule2: new RelExRule([
-      [{tag: 'NP00SP0'}],
+      {tag: 'NP00SP0'},
       {pos: 'verb', lemma: 'apostar', person: 3},
       [{tag: 'NP00O00'},{tag: 'NP00SP0'}],
     ], (matched, context) => {
       let res = [];
-      const class1 = matched[0].token.tag === 'NP00O00' ? 'Team' : 'Person';
-      const class2 = matched[0].token.tag === 'NP00O00' ? 'Team' : 'Person';
+      const class1 = 'Person';
+      const class2 = matched[2].token.tag === 'NP00O00' ? 'Team' : 'Person';
 
       res.push({context, name: matched[2].token.form,  className: class2});
       res.push({

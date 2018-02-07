@@ -3,8 +3,20 @@ const Selector = require('./selector');
 const _list = [
   // Teams
   {
+    sel: {lemma: 'boavista'},
+    fix: {tag: 'NP00O00'}
+  },
+  {
     sel: {lemma: 'vitória_de_setúbal'},
     fix: {tag: 'NP00O00'}
+  },
+  {
+    sel: {lemma: 'sp._braga'},
+    fix: {
+		  form: "Sp. Braga",
+		  lemma: "sp._braga",
+		  tag: "NP00O00",
+    }
   },
   {
     sel: {lemma: 'inter'},
@@ -19,7 +31,19 @@ const _list = [
     fix: {tag: 'NP00O00'}
   },
 
+  // People
+  {
+    sel: {form:'Conceição', tag:'NP00O00'},
+    fix: {
+      form: 'Sérgio_Conceição'
+    }
+  },
+
   // Others
+  {
+    sel: {lemma: 'na', tag:'NP00O00'},
+    fix: {tag: 'NP00V00'}
+  },
   {
     sel: {lemma: 'maisfutebol'},
     fix: {tag: 'NP00V00'}
@@ -38,6 +62,10 @@ const _list = [
   },
 
   // Messed up tokenization (should be fixed in Freeling) // TODO
+  {
+    sel: {lemma: /^ficha_de_jogo/},
+    fix: {tag: 'NP00V00'}
+  },
   {
     sel: {lemma: 'varzim_para_o_portimonense'},
     fix: {tag: 'NP00V00'}
