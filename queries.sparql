@@ -1,0 +1,82 @@
+
+# Players borrowed from Benfica
+
+prefix diexporto: <http://www.semanticweb.org/andrefs/ontologies/diexporto#>
+SELECT ?subject
+WHERE {
+  ?subject diexporto:borrowedFrom diexporto:Benfica
+}
+LIMIT 25
+
+
+
+# Teams that have players borrowed from Benfica and which Benfica won against
+
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix diexporto: <http://www.semanticweb.org/andrefs/ontologies/diexporto#>
+
+SELECT ?team
+WHERE {
+  ?team rdf:type diexporto:Team .
+  diexporto:Benfica diexporto:wonAgainst ?team .
+  ?athlete diexporto:borrowedTo ?team .
+  ?athlete rdf:type diexporto:Athlete
+}
+LIMIT 25
+
+# Wons from each team, ordered by most victories
+
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix diexporto: <http://www.semanticweb.org/andrefs/ontologies/diexporto#>
+
+select distinct ?team (count(?oppo) as ?count) where {
+  ?team a diexporto:Team .
+  ?oppo a diexporto:Team .
+  ?team diexporto:wonAgainst ?oppo .
+}
+group by ?team
+ORDER BY DESC(?count)
+
+
+# People relied on from two or more entities
+
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix diexporto: <http://www.semanticweb.org/andrefs/ontologies/diexporto#>
+
+select distinct ?person where {
+  ?person rdf:type diexporto:Person .
+  ?ent1 diexporto:reliesOn ?person .
+  ?ent2 diexporto:reliesOn ?person .
+
+  FILTER(?ent1 != ?ent2)
+}
+
+
+
+# Teams that have players borrowed from two other teams
+
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix diexporto: <http://www.semanticweb.org/andrefs/ontologies/diexporto#>
+
+
+select distinct ?team1 where {
+  ?team1 rdf:type diexporto:Team .
+  ?player1 diexporto:borrowedFrom ?team2 .
+  ?player1 diexporto:borrowedTo ?team1 .
+  ?player2 diexporto:borrowedFrom ?team3 .
+  ?player2 diexporto:borrowedTo ?team1
+
+  FILTER(?team2 != ?team3)
+}
+
+# Teams who won against teams who Benfica lost against
+
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix diexporto: <http://www.semanticweb.org/andrefs/ontologies/diexporto#>
+
+select distinct ?team where {
+  ?team a diexporto:Team .
+  ?team diexporto:wonAgainst ?oppo .
+  ?oppo diexporto:wonAgainst diexporto:Benfica
+}
+
