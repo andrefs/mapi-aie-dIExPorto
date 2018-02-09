@@ -16,13 +16,13 @@
     "uniq": "^1.0.1",
     "util": "^0.10.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrefs/mapi-aie-dIExPorto.git"
+  },
   "name": "diexporto",
   "version": "0.0.1",
   "description": "Pipeline for extracting information from online sports news websites",
-  "main": " ",
-  "bin": {
-    "diexporto": "crawl.js"
-  },
   "directories": {
     "lib": "lib"
   },
@@ -53,5 +53,9 @@
     "SPARQL"
   ],
   "author": "André Santos",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrefs/mapi-aie-dIExPorto/issues"
+  },
+  "homepage": "https://github.com/andrefs/mapi-aie-dIExPorto#readme"
 }
