@@ -11,7 +11,7 @@ the AIE course in MAPi's Doctoral Program.
 
 ## Install
 
-1. Install Freeling
+1. Install dependencies
 1. `npm run install`
 
 
@@ -28,4 +28,4 @@ the AIE course in MAPi's Doctoral Program.
 
 * `diexporto-*.json` contains a JSON dump of the data extracted
 
-* `diexporto-*.owl' contains and ontology file
+* `diexporto-*.owl` contains and ontology file
