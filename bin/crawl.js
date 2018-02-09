@@ -4,6 +4,7 @@ const parseXml = Promise.promisify(require('fast-feed').parse);
 const {mongoose,Article} = require('../lib/db');
 const sources = require('../lib/sources');
 const rp = require('request-promise');
+const moment = require('moment');
 
 mongoose.connect('mongodb://localhost/aie_develop');
 
@@ -20,7 +21,7 @@ const getArticlesFromRss = source => {
         let article = {
           url: e[source.urlTag],
           source: source.slug,
-          pubDate: new Date(e.date),
+          pubDate: Date.parse(e.date) ? new Date(Date.parse(e.date)) : new Date(),
           title: e.title,
           crawl: {
             firstDate: timestamp
