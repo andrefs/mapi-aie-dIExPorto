@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
-const {mongoose,Article} = require('./lib/db');
-const sources = require('./lib/sources');
+const {mongoose,Article} = require('../lib/db');
+const sources = require('../lib/sources');
 const spawn = require('child_process').spawn;
 
 mongoose.connect('mongodb://localhost/aie_develop');
@@ -18,7 +18,7 @@ const getFetchedArticles = () => {
 
 const spawn_freeling = text => {
   const cmd = 'fl_analyze'
-  const cmd_args = ['-f','scripts/pt.cfg','--noflush','--nec','--output','json'];
+  const cmd_args = ['-f','bin/pt.cfg','--noflush','--nec','--output','json'];
 
   const fl = spawn(cmd, cmd_args);
   fl.stdin.write(text);

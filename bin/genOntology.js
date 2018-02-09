@@ -1,10 +1,10 @@
 const Promise = require('bluebird');
-const {mongoose,Article} = require('./lib/db');
-const extractRelations = require('./lib/extract-relations');
-const ontology = require('./lib/ontology');
-const graph    = require('./lib/graph');
+const {mongoose,Article} = require('../lib/db');
+const extractRelations = require('../lib/extract-relations');
+const ontology = require('../lib/ontology');
+const graph    = require('../lib/graph');
 const moment = require('moment');
-const saveJSON = require('./lib/saveJSON');
+const saveJSON = require('../lib/saveJSON');
 
 mongoose.connect('mongodb://localhost/aie_develop');
 

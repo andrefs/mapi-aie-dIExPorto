@@ -3,6 +3,6 @@
 while (true); do
     echo -e "\n\n" >> logs/fetch.log
     date >> logs/fetch.log
-    node scripts/fetch.js  2>&1 >> logs/fetch.log &
+    node bin/fetch.js  2>&1 >> logs/fetch.log &
     sleep 17m
 done

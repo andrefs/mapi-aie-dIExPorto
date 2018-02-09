@@ -1,0 +1,57 @@
+{
+  "dependencies": {
+    "better-npm-run": "^0.1.0",
+    "bluebird": "^3.5.1",
+    "cheerio": "^1.0.0-rc.2",
+    "fast-feed": "^1.5.5",
+    "handlebars": "^4.0.11",
+    "iconv-lite": "^0.4.19",
+    "md5": "^2.2.1",
+    "moment": "^2.20.1",
+    "mongoose": "5.0.0-rc1",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "rss-parser": "git+https://github.com/bobby-brennan/rss-parser.git#v3",
+    "string-to-stream": "^1.1.0",
+    "uniq": "^1.0.1",
+    "util": "^0.10.3"
+  },
+  "name": "diexporto",
+  "version": "0.0.1",
+  "description": "Pipeline for extracting information from online sports news websites",
+  "main": " ",
+  "bin": {
+    "diexporto": "crawl.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "crawl": "node bin/crawl.js",
+    "crawl-daemon": "bash bin/crawl",
+    "fetch": "node bin/fetch.js",
+    "fetch-daemon": "bash bin/fetch",
+    "freeling": "node bin/freeling.js",
+    "freeling-daemon": "bash bin/freeling",
+    "daemons": "npm run crawl-daemon & npm run fetch-daemon & npm run freeling-daemon &",
+    "gen-ontology": "node bin/genOntology.js",
+    "find-rule": "node bin/findRule.js"
+  },
+  "keywords": [
+    "nlp",
+    "information",
+    "extraction",
+    "relationship",
+    "extraction",
+    "named",
+    "entity",
+    "recognition",
+    "NER",
+    "ontology",
+    "freeling",
+    "SPARQL"
+  ],
+  "author": "André Santos",
+  "license": "ISC"
+}

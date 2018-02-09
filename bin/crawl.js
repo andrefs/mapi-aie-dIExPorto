@@ -1,8 +1,8 @@
 
 const Promise = require('bluebird');
 const parseXml = Promise.promisify(require('fast-feed').parse);
-const {mongoose,Article} = require('./lib/db');
-const sources = require('./lib/sources');
+const {mongoose,Article} = require('../lib/db');
+const sources = require('../lib/sources');
 const rp = require('request-promise');
 
 mongoose.connect('mongodb://localhost/aie_develop');

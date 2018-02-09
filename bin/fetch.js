@@ -1,9 +1,9 @@
 const Promise = require('bluebird');
-const {mongoose,Article} = require('./lib/db');
+const {mongoose,Article} = require('../lib/db');
 const {URL} = require('url');
 const util = require('util');
 const rp   = require('request-promise');
-const sources = require('./lib/sources');
+const sources = require('../lib/sources');
 
 mongoose.connect('mongodb://localhost/aie_develop');
 

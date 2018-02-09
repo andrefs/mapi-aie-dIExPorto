@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
-const {mongoose,Article} = require('./lib/db');
-const sources = require('./lib/sources');
+const {mongoose,Article} = require('../lib/db');
+const sources = require('../lib/sources');
 const spawn = require('child_process').spawn;
 
 mongoose.connect('mongodb://localhost/aie_develop');

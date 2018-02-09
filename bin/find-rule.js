@@ -1,20 +1,17 @@
 const Promise = require('bluebird');
-const {mongoose,Article} = require('./lib/db');
+const {mongoose,Article} = require('../lib/db');
 const {URL} = require('url');
 const util = require('util');
 const rp   = require('request-promise');
-const sources = require('./lib/sources');
-const runGazetteers = require('./lib/gazetteers');
-const RelExRule = require('./lib/rel-ex-rule');
+const sources = require('../lib/sources');
+const runGazetteers = require('../lib/gazetteers');
+const RelExRule = require('../lib/rel-ex-rule');
 
 mongoose.connect('mongodb://localhost/aie_develop');
 const query  = {'nlp.status':'success'};
 
 const rule = new RelExRule([
-      {tag: 'NP00O00'},
-      {pos: 'verb', lemma: 'emprestar', person: 3},
-      {tag: 'NP00SP0'},
-      {tag: 'NP00O00'}
+  {form: 'poderá'}
 ], (matched, context) => {
   console.log('Matched ('+context.sId+')', context.url);
   console.log('\t'+matched.map(x => x.token.form).join(' ')+'\n');
