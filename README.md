@@ -1,6 +1,6 @@
 # dIExPorto
 
-dIExPorto is an advanced information extraction system for online
+dIExPorto (/dɪʃ poər to/) is an advanced information extraction system for online
 sports news articles. It was originally developed in the context of
 the AIE course in MAPi's Doctoral Program.
 
