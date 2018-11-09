@@ -28,4 +28,4 @@ the AIE course in MAPi's Doctoral Program.
 
 * `diexporto-*.json` contains a JSON dump of the data extracted
 
-* `diexporto-*.owl` contains and ontology file
+* `diexporto-*.owl` contains an ontology file
